@@ -1,0 +1,35 @@
+{
+	"schemaVersion": 1,
+	"id": "happy-artillery",
+	"version": "${version}",
+	"name": "Happy Artillery",
+	"description": "A Fabric mod that adds fireball shooting to Happy Ghasts when right-clicked by riders. Fully configurable.",
+	"authors": [
+		"OG Moo-cow"
+	],
+	"contact": {
+		"homepage": "https://pyrehaven.xyz",
+		"sources": "https://github.com/phred2026-cyber/happy-artillery"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"happy.artillery.HappyArtillery"
+		]
+	},
+	"mixins": [
+		"happy-artillery.mixins.json"
+	],
+	"custom": {
+		"loom:injected_interfaces": {
+			"net/minecraft/server/network/ServerPlayerEntity": ["happy/artillery/HappyArtilleryPlayerExtension"]
+		}
+	},
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": ">=1.21.11",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
