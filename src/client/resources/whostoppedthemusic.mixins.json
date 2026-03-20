@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "xyz.pyrehaven.whostoppedthemusic.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
+  "client": [
+    "MusicManagerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.14-SNAPSHOT'
+	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -18,7 +18,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"happy-artillery" {
+		"whostoppedthemusic" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
@@ -27,30 +27,19 @@ loom {
 
 sourceSets {
 	main {
-		java {
-			srcDirs = ['src/main/java']
-		}
-		resources {
-			srcDirs = ['src/main/resources']
-		}
+		java { srcDirs = ['src/main/java'] }
+		resources { srcDirs = ['src/main/resources'] }
 	}
 	client {
-		java {
-			srcDirs = ['src/client/java']
-		}
-		resources {
-			srcDirs = ['src/client/resources']
-		}
+		java { srcDirs = ['src/client/java'] }
+		resources { srcDirs = ['src/client/resources'] }
 	}
 }
 
 dependencies {
-	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
@@ -68,35 +57,12 @@ tasks.withType(JavaCompile).configureEach {
 
 java {
 	withSourcesJar()
-
 	sourceCompatibility = JavaVersion.VERSION_21
 	targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {
-	inputs.property "archivesName", project.base.archivesName
-
 	from("LICENSE") {
-		rename { "${it}_${project.archives_base_name}"}
-	}
-
-	manifest {
-		attributes(
-			'Environment': 'universal'
-		)
-	}
-}
-
-// configure the maven publication
-publishing {
-	publications {
-		create("mavenJava", MavenPublication) {
-			from components.java
-		}
-	}
-
-	repositories {
-		// See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-		mavenLocal()
+		rename { "${it}_${project.archives_base_name}" }
 	}
 }
