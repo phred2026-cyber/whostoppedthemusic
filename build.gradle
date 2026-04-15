@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.14-SNAPSHOT'
+	id 'fabric-loom' version '1.9-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -12,6 +12,28 @@ base {
 
 repositories {
 	mavenCentral()
+}
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"whostoppedthemusic" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+sourceSets {
+	main {
+		java { srcDirs = ['src/main/java'] }
+		resources { srcDirs = ['src/main/resources'] }
+	}
+	client {
+		java { srcDirs = ['src/client/java'] }
+		resources { srcDirs = ['src/client/resources'] }
+	}
 }
 
 dependencies {
@@ -40,17 +62,7 @@ java {
 }
 
 jar {
-	inputs.property "archivesName", project.base.archivesName
-
 	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}" }
-	}
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			from components.java
-		}
+		rename { "${it}_${project.archives_base_name}" }
 	}
 }
