@@ -17,8 +17,23 @@ repositories {
 	mavenCentral()
 }
 
+def localMinecraftMetadataServer = {
+	def metadataDir = file("gradle/minecraft")
+	def server = com.sun.net.httpserver.HttpServer.create(new java.net.InetSocketAddress("127.0.0.1", 0), 0)
+	server.createContext("/26.1.2-custom.json") { exchange ->
+		byte[] body = new File(metadataDir, "26.1.2-custom.json").bytes
+		exchange.responseHeaders.add("Content-Type", "application/json")
+		exchange.sendResponseHeaders(200, body.length)
+		exchange.responseBody.write(body)
+		exchange.close()
+	}
+	server.start()
+	gradle.buildFinished { server.stop(0) }
+	return "http://127.0.0.1:${server.address.port}/26.1.2-custom.json"
+}.call()
+
 loom {
-	customMinecraftMetadata.set("http://127.0.0.1:8124/26.1.2-custom.json")
+	customMinecraftMetadata.set(localMinecraftMetadataServer)
 	clientOnlyMinecraftJar()
 	splitEnvironmentSourceSets()
 
