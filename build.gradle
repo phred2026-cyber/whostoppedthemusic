@@ -11,10 +11,15 @@ base {
 }
 
 repositories {
+	maven {
+		url = uri("gradle/minecraft/local-maven")
+	}
 	mavenCentral()
 }
 
 loom {
+	customMinecraftMetadata.set("http://127.0.0.1:8124/26.1.2-custom.json")
+	clientOnlyMinecraftJar()
 	splitEnvironmentSourceSets()
 
 	mods {
@@ -38,9 +43,8 @@ sourceSets {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings files("gradle/minecraft/identity-official-26.1.2.jar")
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 processResources {
